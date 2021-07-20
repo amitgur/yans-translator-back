@@ -7,5 +7,5 @@ echo    # (optional) move to a new line
 
 if [[ $REPLY == 'y' ]]
 then
-mongorestore --db yans  --drop ./mongodb-backup/yans --noIndexRestore
+mongorestore --db yanstranslator  --drop ./mongodb/bandpad --noIndexRestore
 fi
