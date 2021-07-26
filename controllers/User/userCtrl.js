@@ -34,6 +34,7 @@ exports.getUser = async function (req, res) {
     let user = {
       id: req.user._id,
       name: req.user.name,
+      languageTo: req.user.languageTo,
     };
 
     return res.json(user);

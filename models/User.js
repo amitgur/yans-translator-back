@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   name: String,
-  profile:{ type:String, default: "translator"},// admin, translator
+  languageTo: String,
+  profile: { type: String, default: "translator" }, // admin, translator
   hashed_password: String,
   salt: String,
 });
