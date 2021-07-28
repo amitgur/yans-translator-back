@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   name: String,
+  //TODO: implement languageFrom
+  languageFrom: { type: String, default: "en" },
   languageTo: String,
   profile: { type: String, default: "translator" }, // admin, translator
   hashed_password: String,

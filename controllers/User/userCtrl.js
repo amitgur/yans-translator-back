@@ -34,7 +34,9 @@ exports.getUser = async function (req, res) {
     let user = {
       id: req.user._id,
       name: req.user.name,
+      languageFrom: req.user.languageFrom,
       languageTo: req.user.languageTo,
+      profile: req.user.profile,
     };
 
     return res.json(user);
@@ -75,4 +77,15 @@ exports.rememberMe = function (req, res, next) {
     req.session.cookie.expires = false;
   }
   next();
+};
+
+exports.updateLanguages = async function (req, res, next) {
+  const update = {
+    languageFrom: req.body.from.tag,
+    languageTo: req.body.to.tag,
+  };
+
+  doc = await User.findByIdAndUpdate(req.body.id, update).exec();
+
+  res.sendStatus(200);
 };
