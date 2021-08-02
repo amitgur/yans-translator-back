@@ -8,11 +8,10 @@ exports.signUp = function (req, res, next) {
   user.save(function (err) {
     if (err) {
       console.log("Error in create user: " + err, "error");
-      console.log(req.body);
       switch (err.code) {
         case 11000:
         case 11001:
-          message = "This email aleady exist";
+          message = "This username aleady exist";
           break;
         default:
           message = "Some error occurred";

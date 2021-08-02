@@ -64,3 +64,23 @@ exports.adminEditTranslation = async function (req, res, next) {
   ).exec();
   res.sendStatus(200);
 };
+
+exports.adminNewTranslation = async function (req, res, next) {
+  const translation = new Translate(req.body);
+  console.log(translation);
+  translation.save(function (err) {
+    if (err) {
+      console.log("Error in create new item: " + err, "error");
+      message = "Some error occurred";
+      return res.json({ status: "error", msg: message });
+    }
+  });
+  res.sendStatus(200);
+};
+
+exports.adminDeleteTranslation = async function (req, res, next) {
+  const doc = Translate.findOneAndDelete(req.body).exec();
+  //findOneandDelete
+
+  res.sendStatus(200);
+};

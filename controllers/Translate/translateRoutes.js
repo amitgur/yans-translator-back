@@ -7,4 +7,8 @@ module.exports = function (app) {
   app.post("/update_translations", translateCtrl.updateTranslations);
 
   app.post("/admin_edit_translation", translateCtrl.adminEditTranslation);
+
+  app.post("/admin_new_translation", translateCtrl.adminNewTranslation);
+
+  app.delete("/admin_delete_translation", translateCtrl.adminDeleteTranslation);
 };
