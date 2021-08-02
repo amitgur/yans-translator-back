@@ -54,3 +54,13 @@ exports.updateTranslations = async function (req, res, next) {
   // });
   res.sendStatus(200);
 };
+
+exports.adminEditTranslation = async function (req, res, next) {
+  const update = req.body;
+  console.log(update);
+  const doc = Translate.findOneAndUpdate(
+    { key: update.currentKey },
+    update.data
+  ).exec();
+  res.sendStatus(200);
+};
