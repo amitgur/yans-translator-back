@@ -1,19 +1,22 @@
 const mongoose = require("mongoose"),
   crypto = require("crypto");
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      unique: true,
+    },
+    name: String,
+    //TODO: implement languageFrom
+    languageFrom: { type: String, default: "en" },
+    languageTo: String,
+    profile: { type: String, default: "translator" }, // admin, translator
+    hashed_password: String,
+    salt: String,
   },
-  name: String,
-  //TODO: implement languageFrom
-  languageFrom: { type: String, default: "en" },
-  languageTo: String,
-  profile: { type: String, default: "translator" }, // admin, translator
-  hashed_password: String,
-  salt: String,
-});
+  { collection: "users" }
+);
 
 /**
  * Virtual

@@ -67,7 +67,6 @@ exports.adminEditTranslation = async function (req, res, next) {
 
 exports.adminNewTranslation = async function (req, res, next) {
   const translation = new Translate(req.body);
-  console.log(translation);
   translation.save(function (err) {
     if (err) {
       console.log("Error in create new item: " + err, "error");
@@ -80,7 +79,13 @@ exports.adminNewTranslation = async function (req, res, next) {
 
 exports.adminDeleteTranslation = async function (req, res, next) {
   const doc = Translate.findOneAndDelete(req.body).exec();
-  //findOneandDelete
+  res.sendStatus(200);
+};
 
+exports.updatePageName = async function (req, res, next) {
+  const doc = Translate.updateMany(
+    { page: req.body.oldPageName },
+    { page: req.body.newPageName }
+  ).exec();
   res.sendStatus(200);
 };
