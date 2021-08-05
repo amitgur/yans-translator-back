@@ -19,8 +19,6 @@ module.exports = function (app) {
   // get authentication message
   app.get("/get_message", userCtrl.getMessage);
 
-  //TODO: update language from settings
-  app.post("/update_languages", userCtrl.updateLanguages);
-  //TODO: update password
-  //TODO: update privileges
+  //update from language
+  app.post("/update_language", userCtrl.updateLanguage);
 };

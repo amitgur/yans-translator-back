@@ -78,13 +78,14 @@ exports.rememberMe = function (req, res, next) {
   next();
 };
 
-exports.updateLanguages = async function (req, res, next) {
-  const update = {
-    languageFrom: req.body.from.tag,
-    languageTo: req.body.to.tag,
-  };
-
-  doc = await User.findByIdAndUpdate(req.body.id, update).exec();
-
-  res.sendStatus(200);
+exports.updateLanguage = async function (req, res, next) {
+  console.log(req.body.from);
+  try {
+    const doc = await User.findByIdAndUpdate(req.body.id, {
+      languageFrom: req.body.from,
+    }).exec();
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
 };

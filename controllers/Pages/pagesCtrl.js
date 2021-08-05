@@ -6,6 +6,7 @@ exports.getPages = async function (req, res, next) {
     const [pages] = await Pages.find({}).exec();
     res.send(pages);
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
