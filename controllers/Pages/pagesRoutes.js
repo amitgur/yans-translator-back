@@ -4,5 +4,9 @@ const pagesCtrl = require("./pagesCtrl");
 module.exports = function (app) {
   app.get("/get_pages", pagesCtrl.getPages);
 
-  app.post("/update_pages", pagesCtrl.updatePages);
+  app.post("/update_page", pagesCtrl.updatePage);
+
+  app.post("/add_page", pagesCtrl.addPage);
+
+  app.delete("/delete_page", pagesCtrl.deletePage);
 };
