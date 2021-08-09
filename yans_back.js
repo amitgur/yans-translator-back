@@ -9,6 +9,9 @@ const passport = require("passport");
 dotenv.config({ path: ".env" });
 
 // connect to mongo
+let dbs = process.env.DBS.split(",");
+console.log("\n\x1b[33mAvailable databases: \x1b[0m\n", dbs, "\n");
+
 require("./config/mongoose")();
 
 // register mongoose models
