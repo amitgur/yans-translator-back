@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const cons = require("../config/mongoHandler").cons;
+const Page = [];
 
 const pageSchema = new mongoose.Schema(
   {
@@ -7,6 +9,9 @@ const pageSchema = new mongoose.Schema(
   { collection: "pages" }
 );
 
-const Page = mongoose.model("Page", pageSchema);
+// init models
+Object.keys(cons).forEach((conn) => {
+  Page[conn] = cons[conn].model("Page", pageSchema);
+});
 
 module.exports = Page;

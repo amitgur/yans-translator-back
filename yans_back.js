@@ -4,13 +4,14 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const passport = require("passport");
+const mongoHandler = require("./config/mongoHandler");
 
 // Load environment variables from .env file to process.env, where API keys and passwords are configured.
 dotenv.config({ path: ".env" });
 
 // connect to mongo
-require("./config/mongoose")();
-
+mongoHandler.connectDB(process.env.MONGODB_URI);
+mongoHandler.connectDBS();
 // register mongoose models
 require("./models");
 
@@ -40,5 +41,7 @@ app.listen(app.get("port"), () => {
   );
   console.log("  Press CTRL-C to stop\n");
 });
+
+setTimeout(() => {}, 4000);
 
 module.exports = app;

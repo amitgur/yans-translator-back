@@ -2,8 +2,12 @@ const Translate = require("../../models/Translate");
 
 // get all translates
 exports.getTranslations = async function (req, res, next) {
+  const db = req.body.db || process.env.MONGODB_DB;
   try {
-    const translations = await Translate.find({}, { _id: false }).lean().exec();
+    const translations = await Translate[db]
+      .find({}, { _id: false })
+      .lean()
+      .exec();
     res.send(translations);
   } catch (err) {
     next(err);
@@ -11,7 +15,10 @@ exports.getTranslations = async function (req, res, next) {
 };
 
 exports.updateTranslations = async function (req, res, next) {
-  // console.log(req.body);
+  if (!req.user) {
+    return next(new Error("user no found"));
+  }
+  const db = req.body.db || process.env.MONGODB_DB;
   const updateData = req.body;
   let doc;
   try {
@@ -19,7 +26,7 @@ exports.updateTranslations = async function (req, res, next) {
       // update translated Text
       // update last translation
       // identify incoming language
-      [doc] = await Translate.find({ key: key });
+      [doc] = await Translate[db].find({ key });
       console.log(value);
 
       const newTranslation = `translatedText.${req.user.languageTo}`;
@@ -30,24 +37,21 @@ exports.updateTranslations = async function (req, res, next) {
       update.$set[newTranslation] = value;
       update.$set[oldTranslation] = oldText;
 
-      console.log(update);
-
-      doc = await Translate.findOneAndUpdate({ key: key }, update).exec();
+      doc = await Translate[db].findOneAndUpdate({ key: key }, update).exec();
     }
   } catch (err) {
-    next(err);
+    return next(err);
   }
-
   res.sendStatus(200);
 };
 
 exports.adminEditTranslation = async function (req, res, next) {
+  const db = req.body.db || process.env.MONGODB_DB;
   const update = req.body;
   try {
-    const doc = Translate.findOneAndUpdate(
-      { key: update.currentKey },
-      update.data
-    ).exec();
+    const doc = Translate[db]
+      .findOneAndUpdate({ key: update.currentKey }, update.data)
+      .exec();
     res.sendStatus(200);
   } catch (err) {
     next(err);
@@ -55,37 +59,40 @@ exports.adminEditTranslation = async function (req, res, next) {
 };
 
 exports.adminNewTranslation = async function (req, res, next) {
-  const translation = new Translate(req.body);
+  const db = req.body.db || process.env.MONGODB_DB;
+  const translation = new Translate[db](req.body);
   try {
     translation.save(function (err) {
       if (err) {
-        console.log("Error in create new item: " + err, "error");
-        message = "Some error occurred";
-        return res.json({ status: "error", msg: message });
+        return next(err);
       }
     });
     res.sendStatus(200);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
 exports.adminDeleteTranslation = async function (req, res, next) {
+  const db = req.body.db || process.env.MONGODB_DB;
   try {
-    const doc = Translate.findOneAndDelete(req.body).exec();
-    res.sendStatus(200);
+    const doc = Translate[db].findOneAndDelete(req.body).exec();
+    return res.sendStatus(200);
   } catch (err) {
     next(err);
   }
 };
 
 exports.updatePageName = async function (req, res, next) {
+  const db = req.body.db || process.env.MONGODB_DB;
   try {
-    const doc = Translate.updateMany(
-      { page: req.body.oldPageName },
-      { page: req.body.newPageName }
-    ).exec();
-    res.sendStatus(200);
+    const doc = Translate[db]
+      .updateMany(
+        { page: req.body.oldPageName },
+        { page: req.body.newPageName }
+      )
+      .exec();
+    return res.sendStatus(200);
   } catch (err) {
     next(err);
   }

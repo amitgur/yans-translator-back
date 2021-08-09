@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const cons = require("../config/mongoHandler").cons;
+const Translate = [];
 
 const translateSchema = new mongoose.Schema(
   {
@@ -17,6 +19,9 @@ const translateSchema = new mongoose.Schema(
   { collection: "translations" }
 );
 
-const Translate = mongoose.model("Translate", translateSchema);
+// init models
+Object.keys(cons).forEach((conn) => {
+  Translate[conn] = cons[conn].model("Translate", translateSchema);
+});
 
 module.exports = Translate;

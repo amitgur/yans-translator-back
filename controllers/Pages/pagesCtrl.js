@@ -2,8 +2,9 @@ const Page = require("../../models/Page");
 
 // get all pages
 exports.getPages = async function (req, res, next) {
+  const db = req.body.db || process.env.MONGODB_DB;
   try {
-    const pages = await Page.find({}).exec();
+    const pages = await Page[db].find({}).exec();
     res.send(pages);
   } catch (err) {
     console.log(err);
@@ -12,16 +13,17 @@ exports.getPages = async function (req, res, next) {
 };
 
 exports.updatePage = async function (req, res, next) {
-  const oldName = req.body.oldName;
-  const newName = req.body.newName;
+  const db = req.body.db || process.env.MONGODB_DB;
   try {
-    Page.findOneAndUpdate({ name: oldName }, { name: newName }, function (err) {
-      if (err) {
-        console.log("Error in update page: " + err, "error");
-        message = "Some error occurred";
-        return res.json({ status: "error", msg: message });
+    Page[db].findOneAndUpdate(
+      { name: req.body.oldName },
+      { name: req.body.newName },
+      function (err) {
+        if (err) {
+          return next(err);
+        }
       }
-    });
+    );
     res.sendStatus(200);
   } catch (err) {
     next(err);
@@ -29,26 +31,26 @@ exports.updatePage = async function (req, res, next) {
 };
 
 exports.addPage = async function (req, res, next) {
-  const page = new Page(req.body);
+  const db = req.body.db || process.env.MONGODB_DB;
+  const page = new Page[db](req.body);
   try {
     page.save(function (err) {
       if (err) {
-        console.log("Error in create new item: " + err, "error");
-        message = "Some error occurred";
-        return res.json({ status: "error", msg: message });
+        return next(err);
       }
     });
     res.sendStatus(200);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
 exports.deletePage = async function (req, res, next) {
+  const db = req.body.db || process.env.MONGODB_DB;
   try {
-    const doc = Page.findOneAndDelete(req.body).exec();
+    const doc = Page[db].findOneAndDelete(req.body).exec();
     res.sendStatus(200);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
