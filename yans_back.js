@@ -13,9 +13,6 @@ dotenv.config({ path: ".env" });
 mongoHandler.connectDB(`mongodb://localhost:27017/${process.env.MONGO_DB}`);
 mongoHandler.connectDBS();
 
-// register mongoose user model
-require("./models");
-
 // create passport
 require("./config/passport")(passport);
 

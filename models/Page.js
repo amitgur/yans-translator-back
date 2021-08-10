@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const cons = require("../config/mongoHandler").cons;
-const Page = [];
+const Page = {};
 
 const pageSchema = new mongoose.Schema(
   {

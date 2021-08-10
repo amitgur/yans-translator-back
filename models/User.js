@@ -102,6 +102,5 @@ userSchema.methods = {
       .toString("base64");
   },
 };
-
 const User = mongoose.model("User", userSchema);
 module.exports = User;
