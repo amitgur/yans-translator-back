@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const cons = require("../config/mongoHandler").cons;
-const Translate = [];
+const Translate = {};
 
 const translateSchema = new mongoose.Schema(
   {

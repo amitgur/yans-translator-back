@@ -21,4 +21,6 @@ module.exports = function (app) {
 
   //update from language
   app.post("/update_language", userCtrl.updateLanguage);
+
+  app.post("/set_current_db", userCtrl.setCurrentDB);
 };

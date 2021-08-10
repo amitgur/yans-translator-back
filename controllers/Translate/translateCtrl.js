@@ -2,7 +2,8 @@ const Translate = require("../../models/Translate");
 
 // get all translates
 exports.getTranslations = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+  //TODO: handle no database error;
   try {
     const translations = await Translate[db]
       .find({}, { _id: false })
@@ -18,7 +19,8 @@ exports.updateTranslations = async function (req, res, next) {
   if (!req.user) {
     return next(new Error("user no found"));
   }
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   const updateData = req.body;
   let doc;
   try {
@@ -46,7 +48,8 @@ exports.updateTranslations = async function (req, res, next) {
 };
 
 exports.adminEditTranslation = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   const update = req.body;
   try {
     const doc = Translate[db]
@@ -59,7 +62,8 @@ exports.adminEditTranslation = async function (req, res, next) {
 };
 
 exports.adminNewTranslation = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   const translation = new Translate[db](req.body);
   try {
     translation.save(function (err) {
@@ -74,7 +78,8 @@ exports.adminNewTranslation = async function (req, res, next) {
 };
 
 exports.adminDeleteTranslation = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   try {
     const doc = Translate[db].findOneAndDelete(req.body).exec();
     return res.sendStatus(200);
@@ -84,7 +89,8 @@ exports.adminDeleteTranslation = async function (req, res, next) {
 };
 
 exports.updatePageName = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   try {
     const doc = Translate[db]
       .updateMany(

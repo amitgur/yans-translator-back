@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
     hashed_password: String,
     salt: String,
     databases: Array,
+    currentDatabase: String,
   },
   { collection: "users" }
 );

@@ -1,5 +1,7 @@
 const User = require("../../models/User");
 
+//TODO: add set currentDatabase CRUD call
+
 // SignUp Post
 exports.signUp = function (req, res, next) {
   let user = new User(req.body);
@@ -41,6 +43,7 @@ exports.getUser = async function (req, res) {
         languageFrom: req.user.languageFrom,
         languageTo: req.user.languageTo,
         databases: req.user.databases,
+        currentDatabase: req.user.currentDatabase,
       };
 
       return res.json(user);
@@ -100,9 +103,21 @@ exports.rememberMe = function (req, res, next) {
 };
 
 exports.updateLanguage = async function (req, res, next) {
+  console.log(req.body);
   try {
     const doc = await User.findByIdAndUpdate(req.body.id, {
       languageFrom: req.body.from,
+    }).exec();
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.setCurrentDB = async function (req, res, next) {
+  try {
+    const doc = await User.findByIdAndUpdate(req.body.id, {
+      currentDatabase: req.body.currentDB,
     }).exec();
     res.sendStatus(200);
   } catch (err) {

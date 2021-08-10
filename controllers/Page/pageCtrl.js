@@ -2,7 +2,8 @@ const Page = require("../../models/Page");
 
 // get all pages
 exports.getPages = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+  //TODO: handle no database error;
   try {
     const pages = await Page[db].find({}).exec();
     res.send(pages);
@@ -13,7 +14,8 @@ exports.getPages = async function (req, res, next) {
 };
 
 exports.updatePage = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   try {
     Page[db].findOneAndUpdate(
       { name: req.body.oldName },
@@ -31,7 +33,8 @@ exports.updatePage = async function (req, res, next) {
 };
 
 exports.addPage = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   const page = new Page[db](req.body);
   try {
     page.save(function (err) {
@@ -46,7 +49,8 @@ exports.addPage = async function (req, res, next) {
 };
 
 exports.deletePage = async function (req, res, next) {
-  const db = req.body.db || process.env.MONGODB_DB;
+  const db = req.user.currentDatabase || req.user.databases[0];
+
   try {
     const doc = Page[db].findOneAndDelete(req.body).exec();
     res.sendStatus(200);
