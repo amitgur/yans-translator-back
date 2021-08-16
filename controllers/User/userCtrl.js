@@ -1,7 +1,5 @@
 const User = require("../../models/User");
 
-//TODO: add set currentDatabase CRUD call
-
 // SignUp Post
 exports.signUp = function (req, res, next) {
   let user = new User(req.body);

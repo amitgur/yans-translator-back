@@ -3,7 +3,9 @@ const Page = require("../../models/Page");
 // get all pages
 exports.getPages = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
-  //TODO: handle no database error;
+  if (!db) {
+    return next(new Error("You have not been approved for any Databases"));
+  }
   try {
     const pages = await Page[db].find({}).exec();
     res.send(pages);

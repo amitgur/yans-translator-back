@@ -8,7 +8,7 @@ const cons = {};
 exports.connectDBS = function (mongodbURI) {
   const dbs = process.env.DBS.split(",");
 
-  console.log("\nConnected to Databases:");
+  console.log("\r\nConnected to Databases:");
   dbs.forEach((db) => {
     cons[db] = mongoHandler.createConnection(`mongodb://localhost:27017/${db}`);
     console.log("   \x1b[36;1m✓ %s\x1b[0m", db);

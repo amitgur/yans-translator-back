@@ -3,7 +3,10 @@ const Translate = require("../../models/Translate");
 // get all translates
 exports.getTranslations = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
-  //TODO: handle no database error;
+  if (!db) {
+    return next(new Error("You have not been approved for any Databases"));
+  }
+
   try {
     const translations = await Translate[db]
       .find({}, { _id: false })
@@ -17,7 +20,7 @@ exports.getTranslations = async function (req, res, next) {
 
 exports.updateTranslations = async function (req, res, next) {
   if (!req.user) {
-    return next(new Error("user no found"));
+    return next(new Error("user not found"));
   }
   const db = req.user.currentDatabase || req.user.databases[0];
 

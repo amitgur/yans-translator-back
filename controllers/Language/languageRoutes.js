@@ -2,9 +2,13 @@ const languageCtrl = require("./languageCtrl");
 
 module.exports = function (app) {
   // gets all translations from a specific language
-  // app.get("/get_language", languageCtrl.getLanguage);
+  app.get("/get_language", languageCtrl.getLanguage);
+
   // when translator updates send all translations via key to the language database
-  // app.post("/update_language_translations", languageCtrl.updateLanguageTranslations);
+  app.post(
+    "/update_language_translations",
+    languageCtrl.updateLanguageTranslations
+  );
 
   // when admin edits a translation, send new data to language
   app.post(
@@ -25,7 +29,16 @@ module.exports = function (app) {
   );
 
   // when admin changes a page name, rename page key;
-  // app.post("/admin_update_language_page_name", languageCtrl.updateLanguagePageName);
-  // when admin changes a page name, rename page key;
-  // app.post("/admin_new_language_page_name", languageCtrl.updateLanguagePageName);
+  app.post(
+    "/admin_update_language_page_name",
+    languageCtrl.adminUpdateLanguagePageName
+  );
+
+  // when admin deletes a page name, delete page key;
+  app.delete(
+    "/admin_delete_language_page_name",
+    languageCtrl.adminDeleteLanguagePageName
+  );
+
+  // TODO: add page name?
 };
