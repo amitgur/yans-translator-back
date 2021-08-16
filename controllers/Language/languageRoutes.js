@@ -10,12 +10,6 @@ module.exports = function (app) {
     languageCtrl.updateLanguageTranslations
   );
 
-  // when admin edits a translation, send new data to language
-  app.post(
-    "/admin_edit_language_translation",
-    languageCtrl.adminEditLanguageTranslation
-  );
-
   // when admin generates a new translation, send new data to language
   app.post(
     "/admin_new_language_translation",
@@ -28,17 +22,21 @@ module.exports = function (app) {
     languageCtrl.adminDeleteLanguageTranslation
   );
 
-  // when admin changes a page name, rename page key;
+  // when admin edits a translation, send new data to language
   app.post(
-    "/admin_update_language_page_name",
-    languageCtrl.adminUpdateLanguagePageName
+    "/admin_edit_language_translation",
+    languageCtrl.adminEditLanguageTranslation
   );
 
   // when admin deletes a page name, delete page key;
   app.delete(
-    "/admin_delete_language_page_name",
-    languageCtrl.adminDeleteLanguagePageName
+    "/admin_delete_language_page",
+    languageCtrl.adminDeleteLanguagePage
   );
 
+  // when admin changes a page name, rename page key;
+  app.post("/admin_update_language_page", languageCtrl.adminUpdateLanguagePage);
+
   // TODO: add page name?
+  // app.post("/admin_add_language_page", languageCtrl.adminAddLanguagePage);
 };

@@ -24,10 +24,9 @@ exports.updateTranslations = async function (req, res, next) {
   }
   const db = req.user.currentDatabase || req.user.databases[0];
 
-  const updateData = req.body;
   let doc;
   try {
-    for (const [key, value] of Object.entries(updateData)) {
+    for (const [key, value] of Object.entries(req.body)) {
       // update translated Text
       // update last translation
       // identify incoming language
@@ -38,7 +37,7 @@ exports.updateTranslations = async function (req, res, next) {
       const oldText = doc.translatedText[req.user.languageTo];
 
       const update = { $set: {} };
-      update.$set[newTranslation] = value;
+      update.$set[newTranslation] = value.translation;
       update.$set[oldTranslation] = oldText;
 
       doc = await Translate[db].findOneAndUpdate({ key: key }, update).exec();
@@ -90,7 +89,7 @@ exports.adminDeleteTranslation = async function (req, res, next) {
   }
 };
 
-exports.updatePageName = async function (req, res, next) {
+exports.updatePage = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
   try {

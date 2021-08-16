@@ -12,5 +12,5 @@ module.exports = function (app) {
 
   app.delete("/admin_delete_translation", translateCtrl.adminDeleteTranslation);
 
-  app.post("/admin_update_page_name", translateCtrl.updatePageName);
+  app.post("/admin_update_page", translateCtrl.updatePage);
 };
