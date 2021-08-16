@@ -8,10 +8,12 @@ const cons = {};
 exports.connectDBS = function (mongodbURI) {
   const dbs = process.env.DBS.split(",");
 
+  console.log("\nConnected to Databases:");
   dbs.forEach((db) => {
     cons[db] = mongoHandler.createConnection(`mongodb://localhost:27017/${db}`);
-    console.log(`connected to db ${db}`);
+    console.log("   \x1b[36;1m✓ %s\x1b[0m", db);
   });
+  console.log();
 };
 exports.cons = cons;
 
@@ -28,13 +30,13 @@ exports.connectDB = function (mongodbURI) {
   mongoHandler.connection.on("error", (err) => {
     console.error(err);
     console.log(
-      `MongoDB connection error. Please make sure MongoDB is running.`
+      `\x1b[31mMongoDB connection error.\x1b[0m Please make sure MongoDB is running.`
     );
     process.exit();
   });
 
   mongoHandler.connection.on("connected", function () {
-    console.log(`Mongoose connected to ${mongodbURI}`);
+    console.log("Mongoose connected to \x1b[32m%s\x1b[0m", mongodbURI);
   });
 };
 

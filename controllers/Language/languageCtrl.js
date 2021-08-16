@@ -1,105 +1,71 @@
+const { Schema } = require("mongoose");
 const Language = require("../../models/Language");
 
-// get all translates
-// exports.getLanguages = async function (req, res, next) {
-//   const db = req.user.currentDatabase || req.user.databases[0];
-//   //TODO: handle no database error;
-//   try {
-//     const languages = await Languages[db]
-//       .find({}, { _id: false })
-//       .lean()
-//       .exec();
-//     res.send(languages);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+// When an admin creates a new translation generate key and value pair for it
+exports.adminNewLanguageTranslation = async function (req, res, next) {
+  const db = req.user.currentDatabase || req.user.databases[0];
 
-// exports.updateLanguages = async function (req, res, next) {
-//   if (!req.user) {
-//     return next(new Error("user no found"));
-//   }
-//   const db = req.user.currentDatabase || req.user.databases[0];
+  try {
+    // In theory "language" should always be "en" for a new translation,
+    // but can be something else if admin is choosing to translate
+    // FROM a different language
+    const update = { $set: {} };
+    const newTranslation = `${req.body.page}.${req.body.key}`;
+    update.$set[newTranslation] =
+      req.body.translatedText[req.user.languageFrom];
 
-//   const updateData = req.body;
-//   let doc;
-//   try {
-//     for (const [key, value] of Object.entries(updateData)) {
-//       // update translated Text
-//       // update last translation
-//       // identify incoming language
-//       [doc] = await Translate[db].find({ key });
-//       console.log(value);
+    const doc = await Language[db]
+      .findOneAndUpdate({ language: req.user.languageFrom }, update, {
+        upsert: true,
+      })
+      .exec();
 
-//       const newTranslation = `translatedText.${req.user.languageTo}`;
-//       const oldTranslation = `lastTranslation.${req.user.languageTo}`;
-//       const oldText = doc.translatedText[req.user.languageTo];
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};
 
-//       const update = { $set: {} };
-//       update.$set[newTranslation] = value;
-//       update.$set[oldTranslation] = oldText;
+exports.adminDeleteLanguageTranslation = async function (req, res, next) {
+  const db = req.user.currentDatabase || req.user.databases[0];
+  const update = { $unset: {} };
+  const deleteTranslation = `${req.body.page}.${req.body.key}`;
+  update.$unset[deleteTranslation] = "";
 
-//       doc = await Translate[db].findOneAndUpdate({ key: key }, update).exec();
-//     }
-//   } catch (err) {
-//     return next(err);
-//   }
-//   res.sendStatus(200);
-// };
+  res.sendStatus(200);
+  try {
+    const doc = await Language[db].updateMany({}, update).exec();
+  } catch (err) {
+    next(err);
+  }
+};
 
-// exports.adminEditTranslation = async function (req, res, next) {
-//   const db = req.user.currentDatabase || req.user.databases[0];
+exports.adminEditLanguageTranslation = async function (req, res, next) {
+  const db = req.user.currentDatabase || req.user.databases[0];
+  const oldPage = req.body.currentPage;
+  const newPage = req.body.data.page;
+  const oldKey = req.body.currentKey;
+  const newKey = req.body.data.key;
+  const newTranslation = req.body.data.translatedText[req.user.languageFrom];
 
-//   const update = req.body;
-//   try {
-//     const doc = Translate[db]
-//       .findOneAndUpdate({ key: update.currentKey }, update.data)
-//       .exec();
-//     res.sendStatus(200);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+  try {
+    console.log({
+      oldPage: oldPage,
+      newPage: newPage,
+      oldKey: oldKey,
+      newKey: newKey,
+      newTranslation: newTranslation,
+    });
 
-// exports.adminNewTranslation = async function (req, res, next) {
-//   const db = req.user.currentDatabase || req.user.databases[0];
+    // in the case that they changed the page
+    // -> $unset from one page and set to another in all languages
+    // in the case that they change key
+    // -> we have to $rename property in all languages
+    // in the case that they change translation
+    // -> we have to $set the value at the key
 
-//   const translation = new Translate[db](req.body);
-//   try {
-//     translation.save(function (err) {
-//       if (err) {
-//         return next(err);
-//       }
-//     });
-//     res.sendStatus(200);
-//   } catch (err) {
-//     return next(err);
-//   }
-// };
-
-// exports.adminDeleteTranslation = async function (req, res, next) {
-//   const db = req.user.currentDatabase || req.user.databases[0];
-
-//   try {
-//     const doc = Translate[db].findOneAndDelete(req.body).exec();
-//     return res.sendStatus(200);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// exports.updatePageName = async function (req, res, next) {
-//   const db = req.user.currentDatabase || req.user.databases[0];
-
-//   try {
-//     const doc = Translate[db]
-//       .updateMany(
-//         { page: req.body.oldPageName },
-//         { page: req.body.newPageName }
-//       )
-//       .exec();
-//     return res.sendStatus(200);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};

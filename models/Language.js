@@ -4,10 +4,9 @@ const Language = {};
 
 const languageSchema = new mongoose.Schema(
   {
-    key: { type: String, unique: true },
-    pages: Object,
+    language: { type: String, unique: true },
   },
-  { collection: "languages" }
+  { collection: "languages", strict: false }
 );
 
 // init models

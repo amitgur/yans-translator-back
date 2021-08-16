@@ -29,7 +29,6 @@ exports.updateTranslations = async function (req, res, next) {
       // update last translation
       // identify incoming language
       [doc] = await Translate[db].find({ key });
-      console.log(value);
 
       const newTranslation = `translatedText.${req.user.languageTo}`;
       const oldTranslation = `lastTranslation.${req.user.languageTo}`;
@@ -41,10 +40,10 @@ exports.updateTranslations = async function (req, res, next) {
 
       doc = await Translate[db].findOneAndUpdate({ key: key }, update).exec();
     }
+    res.sendStatus(200);
   } catch (err) {
     return next(err);
   }
-  res.sendStatus(200);
 };
 
 exports.adminEditTranslation = async function (req, res, next) {
