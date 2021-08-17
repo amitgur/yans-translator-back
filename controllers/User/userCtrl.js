@@ -101,7 +101,6 @@ exports.rememberMe = function (req, res, next) {
 };
 
 exports.updateLanguage = async function (req, res, next) {
-  console.log(req.body);
   try {
     const doc = await User.findByIdAndUpdate(req.body.id, {
       languageFrom: req.body.from,

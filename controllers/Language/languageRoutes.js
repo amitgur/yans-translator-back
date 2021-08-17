@@ -37,6 +37,6 @@ module.exports = function (app) {
   // when admin changes a page name, rename page key;
   app.post("/admin_update_language_page", languageCtrl.adminUpdateLanguagePage);
 
-  // TODO: add page name?
-  // app.post("/admin_add_language_page", languageCtrl.adminAddLanguagePage);
+  // Add page name
+  app.post("/admin_add_language_page", languageCtrl.adminAddLanguagePage);
 };
