@@ -1,6 +1,6 @@
 const Page = require("../../models/Page");
 
-// get all pages
+// Get all pages
 exports.getPages = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
   if (!db) {
@@ -15,6 +15,7 @@ exports.getPages = async function (req, res, next) {
   }
 };
 
+// Updates page name
 exports.updatePage = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
@@ -34,6 +35,7 @@ exports.updatePage = async function (req, res, next) {
   }
 };
 
+// Adds a new page
 exports.addPage = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
@@ -50,6 +52,7 @@ exports.addPage = async function (req, res, next) {
   }
 };
 
+// Deletes a page
 exports.deletePage = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 

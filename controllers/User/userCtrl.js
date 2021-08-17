@@ -29,6 +29,7 @@ exports.signUp = function (req, res, next) {
   }
 };
 
+// Gets all info from the user
 exports.getUser = async function (req, res) {
   try {
     if (!req.user) {
@@ -51,6 +52,7 @@ exports.getUser = async function (req, res) {
   }
 };
 
+// When the user logs out
 exports.logoutUser = async function (req, res) {
   try {
     await req.logOut();
@@ -62,7 +64,7 @@ exports.logoutUser = async function (req, res) {
   }
 };
 
-// get error message
+// Get error message
 exports.getMessage = function (req, res) {
   try {
     let msg = req.flash();
@@ -77,6 +79,7 @@ exports.getMessage = function (req, res) {
   }
 };
 
+// When the user wants to be remembered upon leaving the site
 exports.rememberMe = function (req, res, next) {
   try {
     // remember me
@@ -100,6 +103,7 @@ exports.rememberMe = function (req, res, next) {
   }
 };
 
+// Update the langage FROM
 exports.updateLanguage = async function (req, res, next) {
   try {
     const doc = await User.findByIdAndUpdate(req.body.id, {
@@ -111,6 +115,7 @@ exports.updateLanguage = async function (req, res, next) {
   }
 };
 
+// Sets the database to contain the current data
 exports.setCurrentDB = async function (req, res, next) {
   try {
     const doc = await User.findByIdAndUpdate(req.body.id, {

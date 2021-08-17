@@ -3,7 +3,7 @@ const Language = require("../../models/Language");
 
 // TODO: identify language to send from user
 // Get entire language for a website.
-// Needs to know which database to access and which language to send
+// Need to know which database to access and which language to send
 exports.getLanguage = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
   // need to know user language to read from
@@ -44,7 +44,7 @@ exports.updateLanguageTranslations = async function (req, res, next) {
   }
 };
 
-// When an admin creates a new translation generate key and value pair for it
+// When an admin creates a new translation, generate a key and value pair for it
 exports.adminNewLanguageTranslation = async function (req, res, next) {
   if (req.user.profile !== "admin") {
     return res.sendStatus(403);
@@ -128,7 +128,7 @@ exports.adminEditLanguageTranslation = async function (req, res, next) {
   }
 };
 
-// Delete page name field
+// Deletes page name field
 exports.adminDeleteLanguagePage = async function (req, res, next) {
   if (req.user.profile !== "admin") {
     return res.sendStatus(403);
@@ -146,7 +146,7 @@ exports.adminDeleteLanguagePage = async function (req, res, next) {
   }
 };
 
-// Rename page name field
+// Renames page name field
 exports.adminUpdateLanguagePage = async function (req, res, next) {
   if (req.user.profile !== "admin") {
     return res.sendStatus(403);
@@ -164,7 +164,7 @@ exports.adminUpdateLanguagePage = async function (req, res, next) {
   }
 };
 
-// Add page name field
+// Adds page name field
 exports.adminAddLanguagePage = async function (req, res, next) {
   if (req.user.profile !== "admin") {
     return res.sendStatus(403);

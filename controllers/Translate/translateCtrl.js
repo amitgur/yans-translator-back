@@ -1,6 +1,6 @@
 const Translate = require("../../models/Translate");
 
-// get all translates
+// Get all translations
 exports.getTranslations = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
   if (!db) {
@@ -18,6 +18,7 @@ exports.getTranslations = async function (req, res, next) {
   }
 };
 
+// Updates translations
 exports.updateTranslations = async function (req, res, next) {
   if (!req.user) {
     return next(new Error("user not found"));
@@ -48,6 +49,7 @@ exports.updateTranslations = async function (req, res, next) {
   }
 };
 
+// When admin edits a translation
 exports.adminEditTranslation = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
@@ -62,6 +64,7 @@ exports.adminEditTranslation = async function (req, res, next) {
   }
 };
 
+// When admin adds a translation
 exports.adminNewTranslation = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
@@ -78,6 +81,7 @@ exports.adminNewTranslation = async function (req, res, next) {
   }
 };
 
+// When admin deletes a translation
 exports.adminDeleteTranslation = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
@@ -89,6 +93,7 @@ exports.adminDeleteTranslation = async function (req, res, next) {
   }
 };
 
+// Update the page based on translations
 exports.updatePage = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
 
