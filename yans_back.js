@@ -11,10 +11,11 @@ dotenv.config({ path: ".env" });
 
 // connect to mongo
 mongoHandler.connectDB();
-mongoHandler.connectDBS();
 
 // register mongoose models
 require("./models");
+
+mongoHandler.connectDBS();
 
 // create passport
 require("./config/passport")(passport);
