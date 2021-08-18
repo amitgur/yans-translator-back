@@ -8,11 +8,6 @@ const cons = {};
 exports.connectDBS = function (mongodbURI) {
   const dbs = process.env.DBS.split(",");
 
-  const index = dbs.indexOf(process.env.MONGO_DB);
-  if (index > -1) {
-    dbs.splice(index, 1);
-  }
-
   console.log("\r\nConnected to Databases:");
 
   dbs.forEach((db) => {
@@ -26,7 +21,7 @@ exports.connectDBS = function (mongodbURI) {
     }
 
     cons[db] = mongoHandler.createConnection(uri);
-    console.log("   \x1b[36;1m✓ %s\x1b[0m", db);
+    console.log("   \x1b[36;1m✓ %s\x1b[0m", db, uri);
   });
   console.log();
 };
