@@ -10,7 +10,11 @@ const mongoHandler = require("./config/mongoHandler");
 dotenv.config({ path: ".env" });
 
 // connect to mongo
-mongoHandler.connectDB(`mongodb://localhost:27017/${process.env.MONGO_DB}`);
+mongoHandler.connectDB();
+
+// register mongoose models
+require("./models");
+
 mongoHandler.connectDBS();
 
 // create passport

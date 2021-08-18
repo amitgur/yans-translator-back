@@ -9,6 +9,7 @@ exports.connectDBS = function (mongodbURI) {
   const dbs = process.env.DBS.split(",");
 
   console.log("\r\nConnected to Databases:");
+
   dbs.forEach((db) => {
 
     let uri;
@@ -20,21 +21,21 @@ exports.connectDBS = function (mongodbURI) {
     }
 
     cons[db] = mongoHandler.createConnection(uri);
-    console.log("   \x1b[36;1m✓ %s\x1b[0m", db);
+    console.log("   \x1b[36;1m✓ %s\x1b[0m", db, uri);
   });
   console.log();
 };
 exports.cons = cons;
 
 // connect to the main database
-exports.connectDB = function (mongodbURI) {
+exports.connectDB = function () {
   mongoHandler.set("useFindAndModify", false);
   mongoHandler.set("useCreateIndex", true);
   mongoHandler.set("useNewUrlParser", true);
   mongoHandler.set("useUnifiedTopology", true);
 
-  mongoHandler.connect(mongodbURI);
-  console.log(`trying connection to ${mongodbURI}`);
+  mongoHandler.connect(process.env.MONGO_URI);
+  console.log(`trying connection to ${process.env.MONGO_URI}`);
 
   mongoHandler.connection.on("error", (err) => {
     console.error(err);
@@ -45,15 +46,6 @@ exports.connectDB = function (mongodbURI) {
   });
 
   mongoHandler.connection.on("connected", function () {
-    console.log("Mongoose connected to \x1b[32m%s\x1b[0m", mongodbURI);
+    console.log("Mongoose connected to \x1b[32m%s\x1b[0m", process.env.MONGO_URI);
   });
-};
-
-exports.newConnectDB = function (mongodbURI) {
-  const connect = mongoHandler.createConnection(mongodbURI);
-  console.log(`new connection to ${mongodbURI}`);
-};
-
-exports.disconnectDB = function () {
-  mongoHandler.disconnect();
 };
