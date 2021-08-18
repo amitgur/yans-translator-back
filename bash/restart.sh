@@ -10,4 +10,4 @@ echo 'starting YANS on server with forever'
     # user
     rm ./log/forever.log
 
-    forever start -l /home/bandpad/bandpad/yans-translator_back/log/forever.log yans_translator_back.js
+    forever start -l /home/bandpad/bandpad/yans-translator-back/log/forever.log yans_translator_back.js
