@@ -6,7 +6,7 @@ echo 'starting YANS on server with forever'
     echo "Stopping node thread"
     forever stop yans_translator_back.js
 
-    echo "Restarting bandpad-idm-back"
+    echo "Restarting yans_translator_back.js"
     # user
     rm ./log/forever.log
 
