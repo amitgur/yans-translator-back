@@ -28,14 +28,14 @@ exports.connectDBS = function (mongodbURI) {
 exports.cons = cons;
 
 // connect to the main database
-exports.connectDB = function (mongodbURI) {
+exports.connectDB = function () {
   mongoHandler.set("useFindAndModify", false);
   mongoHandler.set("useCreateIndex", true);
   mongoHandler.set("useNewUrlParser", true);
   mongoHandler.set("useUnifiedTopology", true);
 
-  mongoHandler.connect(mongodbURI);
-  console.log(`trying connection to ${mongodbURI}`);
+  mongoHandler.connect(process.env.MONGO_URI);
+  console.log(`trying connection to ${process.env.MONGO_URI}`);
 
   mongoHandler.connection.on("error", (err) => {
     console.error(err);
