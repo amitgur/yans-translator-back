@@ -1,7 +1,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport) {
-  console.log("Loading user environment for passport");
+  console.log("Loading user environment for \x1b[34;1mPassport\x1b[0m");
   const Users = require("../models/User");
 
   // Serialize sessions

@@ -33,9 +33,9 @@ require("./config/logger");
  */
 app.listen(app.get("port"), () => {
   console.log(
-    `App is running at http://localhost:${app.get("port")} in ${app.get(
-      "env"
-    )} mode`
+    `App is running at \x1b[33mhttp://localhost:${app.get(
+      "port"
+    )}\x1b[0m in ${app.get("env")} mode`
   );
   console.log("  Press CTRL-C to stop\n");
 });

@@ -8,7 +8,7 @@ const cons = {};
 exports.connectDBS = function (mongodbURI) {
   const dbs = process.env.DBS.split(",");
 
-  console.log("\r\nConnected to Databases:");
+  console.log("Connected to Databases:");
   dbs.forEach((db) => {
     cons[db] = mongoHandler.createConnection(`mongodb://localhost:27017/${db}`);
     console.log("   \x1b[36;1m✓ %s\x1b[0m", db);
@@ -25,7 +25,7 @@ exports.connectDB = function (mongodbURI) {
   mongoHandler.set("useUnifiedTopology", true);
 
   mongoHandler.connect(mongodbURI);
-  console.log(`trying connection to ${mongodbURI}`);
+  console.log(`\nTrying connection to \x1b[35m%s\x1b[0m`, mongodbURI);
 
   mongoHandler.connection.on("error", (err) => {
     console.error(err);

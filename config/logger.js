@@ -55,7 +55,7 @@ exports.logger = logger;
  * Logger is declared as a global function.
  */
 global.logger = logger;
-logger.info(`application was restart, in ${process.env.NODE_ENV} mode `);
+logger.info(`Application was restarted, in ${process.env.NODE_ENV} mode`);
 
 exports.query = function (req, res, next) {
   const options = {
