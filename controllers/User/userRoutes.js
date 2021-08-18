@@ -27,4 +27,6 @@ module.exports = function (app) {
 
   // Sets the database to contain the current data
   app.post("/set_current_db", userCtrl.setCurrentDB);
+
+  app.get("/admin_get_users", userCtrl.adminGetUsers);
 };
