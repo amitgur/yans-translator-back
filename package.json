@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "Amit Gur",
   "scripts": {
-    "start": "nodemon yans_back.js"
+    "start": "nodemon yans_back.js",
+    "deployTest": "rsync -aP ./ --exclude 'node_modules' --exclude '.git' --exclude '.idea' --exclude '.env' --exclude 'log' bandpad@bandpadtest.com:bandpad/yans-translator-back"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

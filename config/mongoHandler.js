@@ -10,20 +10,29 @@ exports.connectDBS = function (mongodbURI) {
 
   console.log("Connected to Databases:");
   dbs.forEach((db) => {
-    cons[db] = mongoHandler.createConnection(`mongodb://localhost:27017/${db}`);
-    console.log("   \x1b[36;1m✓ %s\x1b[0m", db);
+    let uri;
+
+    if (process.env.MONGO_CONNECT_TYPE === "local") {
+      uri = `mongodb://localhost:27017/${db}`;
+    } else {
+      uri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@localhost:27017/${db}`;
+    }
+
+    cons[db] = mongoHandler.createConnection(uri);
+    console.log("   \x1b[36;1m✓ %s\x1b[0m \x1b[2;3m%s\x1b[0m", db, uri);
   });
   console.log();
 };
 exports.cons = cons;
 
 // connect to the main database
-exports.connectDB = function (mongodbURI) {
+exports.connectDB = function () {
   mongoHandler.set("useFindAndModify", false);
   mongoHandler.set("useCreateIndex", true);
   mongoHandler.set("useNewUrlParser", true);
   mongoHandler.set("useUnifiedTopology", true);
 
+  const mongodbURI = `mongodb://localhost:27017/${process.env.MONGO_DB}`;
   mongoHandler.connect(mongodbURI);
   console.log(`\nTrying connection to \x1b[35m%s\x1b[0m`, mongodbURI);
 
@@ -38,13 +47,4 @@ exports.connectDB = function (mongodbURI) {
   mongoHandler.connection.on("connected", function () {
     console.log("Mongoose connected to \x1b[32m%s\x1b[0m", mongodbURI);
   });
-};
-
-exports.newConnectDB = function (mongodbURI) {
-  const connect = mongoHandler.createConnection(mongodbURI);
-  console.log(`new connection to ${mongodbURI}`);
-};
-
-exports.disconnectDB = function () {
-  mongoHandler.disconnect();
 };

@@ -3,6 +3,8 @@ const User = require("../../models/User");
 // SignUp Post
 exports.signUp = function (req, res, next) {
   let user = new User(req.body);
+  let dbs = process.env.DBS.split(",");
+  user.databases = dbs;
   let message = null;
   try {
     user.save(function (err) {
@@ -122,6 +124,24 @@ exports.setCurrentDB = async function (req, res, next) {
       currentDatabase: req.body.currentDB,
     }).exec();
     res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.adminGetUsers = async function (req, res, next) {
+  try {
+    const users = await User
+      .find({}, {
+        _id: false,
+        hashed_password: false,
+        salt: false,
+        currentDatabase: false,
+        __v: false,
+      })
+      .lean()
+      .exec();
+    res.send(users);
   } catch (err) {
     next(err);
   }
