@@ -8,7 +8,13 @@ const cons = {};
 exports.connectDBS = function (mongodbURI) {
   const dbs = process.env.DBS.split(",");
 
+  const index = dbs.indexOf(process.env.MONGO_DB);
+  if (index > -1) {
+    dbs.splice(index, 1);
+  }
+
   console.log("\r\nConnected to Databases:");
+
   dbs.forEach((db) => {
 
     let uri;
