@@ -49,12 +49,3 @@ exports.connectDB = function (mongodbURI) {
     console.log("Mongoose connected to \x1b[32m%s\x1b[0m", mongodbURI);
   });
 };
-
-exports.newConnectDB = function (mongodbURI) {
-  const connect = mongoHandler.createConnection(mongodbURI);
-  console.log(`new connection to ${mongodbURI}`);
-};
-
-exports.disconnectDB = function () {
-  mongoHandler.disconnect();
-};
