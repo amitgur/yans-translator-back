@@ -46,6 +46,6 @@ exports.connectDB = function () {
   });
 
   mongoHandler.connection.on("connected", function () {
-    console.log("Mongoose connected to \x1b[32m%s\x1b[0m", mongodbURI);
+    console.log("Mongoose connected to \x1b[32m%s\x1b[0m", process.env.MONGO_URI);
   });
 };
