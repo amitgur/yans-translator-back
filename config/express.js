@@ -51,7 +51,7 @@ module.exports = function (app, passport, router) {
         maxAge: 60 * 60, // 1 hour
       }, // two weeks in milliseconds
       store: new MongoStore({
-        url: `mongodb://localhost:27017/${process.env.MONGO_DB}`,
+        url: process.env.MONGO_URI,
         autoReconnect: true,
       }),
     })
