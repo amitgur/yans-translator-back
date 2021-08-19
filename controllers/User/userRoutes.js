@@ -28,5 +28,11 @@ module.exports = function (app) {
   // Sets the database to contain the current data
   app.post("/set_current_db", userCtrl.setCurrentDB);
 
+  // Sends all user data to the Admin User UI
   app.get("/admin_get_users", userCtrl.adminGetUsers);
+
+  app.get("/admin_get_databases", userCtrl.adminGetDatabases);
+
+  // Updates a user's privileges from the Admin User UI
+  app.post("/admin_update_user", userCtrl.adminUpdateUser);
 };

@@ -4,7 +4,11 @@ const User = require("../../models/User");
 exports.signUp = function (req, res, next) {
   let user = new User(req.body);
   let dbs = process.env.DBS.split(",");
-  user.databases = dbs;
+  user.languageTo = "";
+  if (req.body.profile === "admin") {
+    user.languageTo = "en";
+    user.databases = dbs;
+  }
   let message = null;
   try {
     user.save(function (err) {
@@ -131,17 +135,39 @@ exports.setCurrentDB = async function (req, res, next) {
 
 exports.adminGetUsers = async function (req, res, next) {
   try {
-    const users = await User
-      .find({}, {
+    const users = await User.find(
+      {},
+      {
         _id: false,
         hashed_password: false,
         salt: false,
         currentDatabase: false,
         __v: false,
-      })
+      }
+    )
       .lean()
       .exec();
     res.send(users);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.adminGetDatabases = function (req, res, next) {
+  res.send(process.env.DBS.split(","));
+};
+
+exports.adminUpdateUser = async function (req, res, next) {
+  const update = {};
+  if (req.body.languageTo.tag) {
+    update.languageTo = req.body.languageTo.tag;
+  }
+  if (req.body.databases) {
+    update.databases = req.body.databases;
+  }
+  try {
+    User.findOneAndUpdate({ username: req.body.username }, update).exec();
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }

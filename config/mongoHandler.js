@@ -32,9 +32,11 @@ exports.connectDB = function () {
   mongoHandler.set("useNewUrlParser", true);
   mongoHandler.set("useUnifiedTopology", true);
 
-  const mongodbURI = `mongodb://localhost:27017/${process.env.MONGO_DB}`;
-  mongoHandler.connect(mongodbURI);
-  console.log(`\nTrying connection to \x1b[35m%s\x1b[0m`, mongodbURI);
+  mongoHandler.connect(process.env.MONGO_URI);
+  console.log(
+    `\nTrying connection to \x1b[35m%s\x1b[0m`,
+    process.env.MONGO_URI
+  );
 
   mongoHandler.connection.on("error", (err) => {
     console.error(err);
@@ -45,6 +47,9 @@ exports.connectDB = function () {
   });
 
   mongoHandler.connection.on("connected", function () {
-    console.log("Mongoose connected to \x1b[32m%s\x1b[0m", mongodbURI);
+    console.log(
+      "Mongoose connected to \x1b[32m%s\x1b[0m",
+      process.env.MONGO_URI
+    );
   });
 };
