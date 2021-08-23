@@ -158,13 +158,11 @@ exports.adminGetDatabases = function (req, res, next) {
 };
 
 exports.adminUpdateUser = async function (req, res, next) {
-  const update = {};
-  if (req.body.languageTo.tag) {
-    update.languageTo = req.body.languageTo.tag;
-  }
-  if (req.body.databases) {
-    update.databases = req.body.databases;
-  }
+  const update = {
+    languageTo: req.body.languageTo.tag,
+    databases: req.body.databases,
+  };
+
   try {
     User.findOneAndUpdate({ username: req.body.username }, update).exec();
     res.sendStatus(200);
