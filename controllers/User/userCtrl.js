@@ -28,6 +28,7 @@ exports.signUp = function (req, res, next) {
       return res.json({
         status: "ok",
         msg: "Sign up successfully",
+        sub: "An Admin will add database and language privileges for you shortly",
       });
     });
   } catch (err) {
