@@ -1,9 +1,6 @@
 const languageCtrl = require("./languageCtrl");
 
 module.exports = function (app) {
-  // Gets all translations from a specific language
-  app.get("/get_language", languageCtrl.getLanguage);
-
   // When translator updates, send all translations via key to the language database
   app.post(
     "/update_language_translations",
