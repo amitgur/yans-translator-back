@@ -3,9 +3,6 @@ const Translate = require("../../models/Translate");
 // Get all translations
 exports.getTranslations = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
-  if (!db) {
-    return next(new Error("You have not been approved for any Databases"));
-  }
 
   try {
     const translations = await Translate[db]

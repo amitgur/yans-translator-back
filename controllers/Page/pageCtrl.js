@@ -4,13 +4,16 @@ const Page = require("../../models/Page");
 exports.getPages = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
   if (!db) {
-    return next(new Error("You have not been approved for any Databases"));
+    return res.json({
+      status: 304,
+      msg: "Attention",
+      sub: "You haven't been approved for any Databases yet. Contact an Admin to get approved.",
+    });
   }
   try {
     const pages = await Page[db].find({}).exec();
     res.send(pages);
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

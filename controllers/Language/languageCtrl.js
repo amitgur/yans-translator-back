@@ -1,27 +1,6 @@
 const { Schema } = require("mongoose");
 const Language = require("../../models/Language");
 
-// TODO: identify language to send from user
-// Get entire language for a website.
-// Need to know which database to access and which language to send
-exports.getLanguage = async function (req, res, next) {
-  const db = req.user.currentDatabase || req.user.databases[0];
-  // need to know user language to read from
-  // will user model differ between TRANSLATION user and WEBSITE user?
-  const language = "en";
-  // need to know which Database, language, and pages
-
-  try {
-    const data = await Language[db]
-      .find({ language: language }, { _id: false })
-      .lean()
-      .exec();
-    res.send(data);
-  } catch (err) {
-    next(err);
-  }
-};
-
 // Updates all translations from a translator
 exports.updateLanguageTranslations = async function (req, res, next) {
   const db = req.user.currentDatabase || req.user.databases[0];
