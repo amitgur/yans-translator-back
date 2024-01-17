@@ -160,3 +160,22 @@ exports.adminAddLanguagePage = async function (req, res, next) {
     next(err);
   }
 };
+
+// Adds page name field
+exports.getLanguage = async function (req, res, next) {
+  let language;
+  try {
+    let pages = [...req.query.pages.split("_")];
+    let select = { _id: false };
+    for (let page of pages) {
+      select[page] = 1;
+    }
+    language = await Language[req.query.project]
+      .findOne({ language: req.query.language }, select)
+      .lean()
+      .exec();
+    res.json(language);
+  } catch (err) {
+    next(err);
+  }
+};

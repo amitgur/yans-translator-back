@@ -36,4 +36,9 @@ module.exports = function (app) {
 
   // Add page name
   app.post("/admin_add_language_page", languageCtrl.adminAddLanguagePage);
+
+
+  // Get language
+  app.get("/get_language", languageCtrl.getLanguage);
+
 };
